@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   (signUp)
                       ? Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
                           child: TextFormField(
                             controller: _nameController,
                             decoration: InputDecoration(
@@ -59,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         )
                       : Container(),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
                     child: TextFormField(
                       controller: _emailController,
                       validator: (signUp)
@@ -80,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
                     child: TextFormField(
                       controller: _passwordController,
                       validator: (signUp)
@@ -116,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -138,13 +138,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             password:
                                                 _passwordController.text.trim())
                                         .then((value) async {
+                                            await value.user?.updateDisplayName(_nameController.text.trim());
                                             await firestore.collection('Users').add(
                                                 {
                                                   'uid' : value.user?.uid,
                                                   'name' : _nameController.text.trim(),
                                                   'email' : _emailController.text.trim()
                                                 });
-                                            await value.user?.updateDisplayName(_nameController.text.trim());
+
                                           },
                                         );
                                   } on FirebaseException catch (e) {

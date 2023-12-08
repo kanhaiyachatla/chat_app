@@ -30,7 +30,7 @@ class _ChatScreenState extends State<ChatScreen> {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           elevation: 10,
-          title: Text('Chat'),
+          title: (user!.uid == chatRoomData['uid1']) ? Text(chatRoomData['username2']):Text(chatRoomData['username1']),
         ),
         body: Column(
           children: [
@@ -135,7 +135,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   _inputField() {
     return Container(
-      color: Colors.grey.shade200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: Colors.grey.shade200,
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
       child: Row(
         children: [
           Expanded(
