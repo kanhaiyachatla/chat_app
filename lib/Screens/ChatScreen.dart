@@ -1,3 +1,4 @@
+import 'package:chat_bubbles/bubbles/bubble_special_two.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,9 @@ class _ChatScreenState extends State<ChatScreen> {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           elevation: 10,
-          title: (user!.uid == chatRoomData['uid1']) ? Text(chatRoomData['username2']):Text(chatRoomData['username1']),
+          title: (user!.uid == chatRoomData['uid1'])
+              ? Text(chatRoomData['username2'])
+              : Text(chatRoomData['username1']),
         ),
         body: Column(
           children: [
@@ -52,71 +55,22 @@ class _ChatScreenState extends State<ChatScreen> {
                             itemBuilder: (context, index) {
                               var message = snapshots.data?.docs[index].data();
                               if (message?['sentbyID'] == user!.uid) {
-                                return ChatBubble(
-                                  clipper: ChatBubbleClipper5(
-                                      type: BubbleType.sendBubble),
-                                  alignment: Alignment.topRight,
-                                  margin: EdgeInsets.only(
-                                      top: 5, right: 8, bottom: 5),
-                                  backGroundColor: Colors.green,
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                      maxWidth:
-                                          MediaQuery.of(context).size.width *
-                                              0.7,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          message?['message'],
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        Text(
-                                          DateFormat.jm().format(DateTime
-                                              .fromMillisecondsSinceEpoch(
-                                                  int.parse(message!['time']))),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 11),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                return BubbleSpecialTwo(
+                                  text: message?['message'],
+                                  color: Colors.green,
+                                  tail: false,
+                                  textStyle: TextStyle(
+                                      color: Colors.white, fontSize: 16),
                                 );
                               } else {
-                                return ChatBubble(
-                                  clipper: ChatBubbleClipper5(
-                                      type: BubbleType.receiverBubble),
-                                  alignment: Alignment.topLeft,
-                                  margin: EdgeInsets.only(
-                                      top: 5, left: 8, bottom: 5),
-                                  backGroundColor: Colors.blue,
-                                  child: Container(
-                                    constraints: BoxConstraints(
-                                      maxWidth:
-                                          MediaQuery.of(context).size.width *
-                                              0.7,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          message?['message'],
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        Text(
-                                          DateFormat.jm().format(DateTime
-                                              .fromMillisecondsSinceEpoch(
-                                                  int.parse(message!['time']))),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 11),
-                                        )
-                                      ],
-                                    ),
+                                return BubbleSpecialTwo(
+                                  text: message?['message'],
+                                  color: Colors.blue,
+                                  isSender: false,
+                                  tail: false,
+                                  textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
                                   ),
                                 );
                               }
@@ -139,7 +93,7 @@ class _ChatScreenState extends State<ChatScreen> {
         borderRadius: BorderRadius.circular(25),
         color: Colors.grey.shade200,
       ),
-      margin: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
           Expanded(
