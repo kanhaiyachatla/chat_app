@@ -49,6 +49,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
                           child: TextFormField(
                             controller: _nameController,
+                            validator: (name){
+                              if(name!.isEmpty) {
+                                return 'Please enter username';
+                              }
+                            },
                             decoration: InputDecoration(
                               labelText: 'Username',
                               border: OutlineInputBorder(
@@ -162,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 });
 
                                 try {
-                                   FirebaseAuth.instance
+                                   await FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
                                           email: _emailController.text.trim(),
                                           password:
@@ -175,10 +180,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     },
                                   );
                                 } on FirebaseException catch (e) {
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message.toString())));
+                                  setState(() {
+                                    _isLoading =false;
+                                  });
                                 }
                               }
                             },
