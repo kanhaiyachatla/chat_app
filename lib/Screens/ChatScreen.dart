@@ -2,8 +2,6 @@ import 'package:chat_bubbles/bubbles/bubble_special_two.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
   var chatRoomData;
