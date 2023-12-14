@@ -137,14 +137,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     _isLoading = true;
                                   });
                                   try {
-                                    await FirebaseAuth.instance
+                                    var res = await FirebaseAuth.instance
                                         .createUserWithEmailAndPassword(
                                             email: _emailController.text.trim(),
                                             password:
                                                 _passwordController.text.trim())
                                         .then((value) async {
-                                            await value.user?.updateDisplayName(_nameController.text.trim());
-                                            await firestore.collection('Users').add(
+                                            await firestore.collection('Users').doc(value.user?.uid).set(
                                                 {
                                                   'uid' : value.user?.uid,
                                                   'name' : _nameController.text.trim(),
